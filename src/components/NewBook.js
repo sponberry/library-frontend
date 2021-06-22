@@ -1,24 +1,51 @@
+import { useMutation } from '@apollo/client'
 import React, { useState } from 'react'
+import { ADD_BOOK, ALL_BOOKS, ALL_AUTHORS } from '../queries'
+import ValidationNotice from './ValidationNotice'
 
-const NewBook = (props) => {
+
+const NewBook = ({ show, setError }) => {
   const [title, setTitle] = useState('')
-  const [author, setAuhtor] = useState('')
+  const [author, setAuthor] = useState('')
   const [published, setPublished] = useState('')
   const [genre, setGenre] = useState('')
   const [genres, setGenres] = useState([])
+  const [validation, setValidation] = useState(null)
 
-  if (!props.show) {
+  const [ createBook ] = useMutation(ADD_BOOK, {
+    refetchQueries: [ { query: ALL_BOOKS }, { query: ALL_AUTHORS }],
+    onError: (error) => {      
+      setError(error.graphQLErrors[0].message)    
+    }
+  })
+
+  if (!show) {
     return null
   }
 
-  const submit = async (event) => {
-    event.preventDefault()
-    
-    console.log('add book...')
+  const checkFields = (e) => {
+    e.preventDefault()
+    if (!title || !author || !published) {
+      setValidation("field required")
+      setTimeout(() => {
+        setValidation(null)
+      }, 5000)
+      return
+    }
+    setValidation(null)
+    submit()
+  }
+  
+  const submit = async () => {
+    const publishedYear = Number(published)
+    createBook({ variables: {
+      title, author, published: publishedYear, genres
+    }})
+    console.log(`adding book ${title}`)
 
     setTitle('')
     setPublished('')
-    setAuhtor('')
+    setAuthor('')
     setGenres([])
     setGenre('')
   }
@@ -30,20 +57,22 @@ const NewBook = (props) => {
 
   return (
     <div>
-      <form onSubmit={submit}>
+      <form onSubmit={checkFields}>
         <div>
           title
           <input
             value={title}
             onChange={({ target }) => setTitle(target.value)}
           />
+          <ValidationNotice message={validation} />
         </div>
         <div>
           author
           <input
             value={author}
-            onChange={({ target }) => setAuhtor(target.value)}
+            onChange={({ target }) => setAuthor(target.value)}
           />
+          <ValidationNotice message={validation} />
         </div>
         <div>
           published
@@ -52,6 +81,7 @@ const NewBook = (props) => {
             value={published}
             onChange={({ target }) => setPublished(target.value)}
           />
+          <ValidationNotice message={validation} />
         </div>
         <div>
           <input
@@ -61,7 +91,7 @@ const NewBook = (props) => {
           <button onClick={addGenre} type="button">add genre</button>
         </div>
         <div>
-          genres: {genres.join(' ')}
+          genres: {genres.join(' | ')}
         </div>
         <button type='submit'>create book</button>
       </form>
