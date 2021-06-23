@@ -3,7 +3,7 @@ import ValidationNotice from "./ValidationNotice"
 import { useMutation } from "@apollo/client"
 import { UPDATE_AUTHOR, ALL_AUTHORS } from "../queries"
 
-const SetBirthyear = ({ setError }) => {
+const SetBirthyear = ({ setError, authors }) => {
   const [name, setName] = useState("")
   const [born, setBorn] = useState("")
   const [validation, setValidation] = useState(null)
@@ -43,12 +43,14 @@ const SetBirthyear = ({ setError }) => {
       <h2>Set birthyear</h2>
       <form onSubmit={(e) => checkFields(e)}>
         <div>
-          <label for="name">name: </label>
-          <input
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+        <label>
+          name:
+          <select value={name} onChange={(e) => setName(e.target.value)}>            
+            {authors.map(author => (
+              <option value={author.name}>{author.name}</option>
+            ))}
+          </select>
+        </label>
           <ValidationNotice message={validation} />
         </div>
         <div>
