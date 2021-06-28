@@ -42,19 +42,19 @@ const SetBirthyear = ({ setError, authors }) => {
     <div>
       <h2>Set birthyear</h2>
       <form onSubmit={(e) => checkFields(e)}>
-        <div>
-        <label>
+        <div style={{ marginBottom: 5 }}>
+        <label htmlFor="name">
           name:
-          <select value={name} onChange={(e) => setName(e.target.value)}>            
+          <select id="name" value={name} onChange={(e) => setName(e.target.value)}>            
             {authors.map(author => (
-              <option value={author.name}>{author.name}</option>
+              <option value={author.name} key={author.id}>{author.name}</option>
             ))}
           </select>
         </label>
           <ValidationNotice message={validation} />
         </div>
-        <div>
-          <label for="born">birth year: </label>
+        <div style={{ marginBottom: 5 }}>
+          <label htmlFor="born">birth year: </label>
           <input
             id="born"
             value={born}

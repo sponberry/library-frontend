@@ -14,9 +14,9 @@ const NewBook = ({ show, setError }) => {
 
   const [ createBook ] = useMutation(ADD_BOOK, {
     refetchQueries: [ { query: ALL_BOOKS }, { query: ALL_AUTHORS }],
-    onError: (error) => {      
-      setError(error.graphQLErrors[0].message)    
-    }
+    // onError: (error) => {      
+    //   setError(error.graphQLErrors[0].message)    
+    // }
   })
 
   if (!show) {
@@ -58,24 +58,24 @@ const NewBook = ({ show, setError }) => {
   return (
     <div>
       <form onSubmit={checkFields}>
-        <div>
-          title
+        <div style={{ marginBottom: 5 }}>
+          title{" "}
           <input
             value={title}
             onChange={({ target }) => setTitle(target.value)}
           />
           <ValidationNotice message={validation} />
         </div>
-        <div>
-          author
+        <div style={{ marginBottom: 5 }}>
+          author{" "}
           <input
             value={author}
             onChange={({ target }) => setAuthor(target.value)}
           />
           <ValidationNotice message={validation} />
         </div>
-        <div>
-          published
+        <div style={{ marginBottom: 5 }}>
+          published{" "}
           <input
             type='number'
             value={published}
@@ -83,11 +83,12 @@ const NewBook = ({ show, setError }) => {
           />
           <ValidationNotice message={validation} />
         </div>
-        <div>
+        <div style={{ marginBottom: 5 }}>
           <input
             value={genre}
             onChange={({ target }) => setGenre(target.value)}
           />
+          {" "}
           <button onClick={addGenre} type="button">add genre</button>
         </div>
         <div>
