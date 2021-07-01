@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useMutation } from '@apollo/client'
 import { LOGIN } from '../queries'
 
-const LoginForm = ({ show, setError, setToken, setPage }) => {
+const LoginForm = ({ show, setError, setToken, setPage, setAppUser }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -24,6 +24,7 @@ const LoginForm = ({ show, setError, setToken, setPage }) => {
     event.preventDefault()
 
     login({ variables: { username, password } })
+    setAppUser()
     setPage("authors")
   }
 
