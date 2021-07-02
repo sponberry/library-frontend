@@ -17,23 +17,22 @@ const App = () => {
   const client = useApolloClient()
 
   const onLogin = () => {
-    console.log("result: ", result)
-    console.log("login logout function before getUser: ", result.data)
     if (!result.called) {
       getUser()
       return
     }
-    setTimeout(() => {
-      result.refetch()
-    }, 1000)
+    if (result.data.me === null) {
+      setTimeout(() => {
+        result.refetch()
+      }, 1000)
+    }
   }
 
   useEffect(() => {
-    console.log("data sent to setUser: ", result.data)
     if (result.data) {
       setUser(result.data.me)
     }
-  }, [result])
+  }, [result.data])
 
   const notify = (message) => {
     setErrorMessage(message)

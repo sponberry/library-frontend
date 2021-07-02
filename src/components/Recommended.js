@@ -50,7 +50,7 @@ const Recommended = ({ show, token, user }) => {
             </th>
           </tr>
           {books.map(b =>
-            <BookRow book={b} genreFilter={user.favoriteGenre} key={b.id} />
+            <BookRow book={b} key={b.id} />
           )}
           
         </tbody>

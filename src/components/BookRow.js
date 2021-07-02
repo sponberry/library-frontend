@@ -2,17 +2,17 @@ import React from "react"
 
 const BookRow = ({book, genreFilter}) => {
 
-  if (genreFilter === "all genres") {
-    return (
-      <tr key={book.id}>
-        <td>{book.title}</td>
-        <td>{book.author.name}</td>
-        <td>{book.published}</td>
-      </tr>
-    )
-  }
+  // if (genreFilter === "all genres") {
+  //   return (
+  //     <tr key={book.id}>
+  //       <td>{book.title}</td>
+  //       <td>{book.author.name}</td>
+  //       <td>{book.published}</td>
+  //     </tr>
+  //   )
+  // }
 
-  if (book.genres.includes(genreFilter)) {
+  // if (book.genres.includes(genreFilter)) {
     return (
       <tr key={book.id}>
             <td>{book.title}</td>
@@ -20,9 +20,9 @@ const BookRow = ({book, genreFilter}) => {
             <td>{book.published}</td>
           </tr>
     )
-  }
+  // }
   
-  return null
+  // return null
 }
 
 export default BookRow
