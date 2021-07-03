@@ -76,11 +76,15 @@ const App = () => {
     setPage("authors")
   }
 
-  // find way to get rid of old user token or retain login
-  // mluukkai not working?
-  // useEffect(() => {
-  //   logout()
-  // }, []) // eslint-disable-line
+  useEffect( () => {
+    const userToken = window.localStorage.getItem("library-user-token")
+    if (userToken) {
+      setToken(userToken)
+      onLogin()
+    } else {
+      logout()
+    }
+  }, []) // eslint-disable-line
 
   return (
     <div>
