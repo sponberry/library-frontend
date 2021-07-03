@@ -6,7 +6,9 @@ import BookRow from "./BookRow"
 const Books = (props) => {
   const allBooks = useQuery(ALL_BOOKS)
   const [genreFilter, setGenreFilter] = useState("all genres")
-  const [getBooks, bookResult] = useLazyQuery(BOOKS_BY_GENRE)
+  const [getBooks, bookResult] = useLazyQuery(BOOKS_BY_GENRE, {
+    fetchPolicy: "cache-and-network"
+  })
   const [books, setBooks] = useState(null)
 
   // triggers on allBooks query data change and filter change
@@ -14,7 +16,7 @@ const Books = (props) => {
     if (allBooks.data && genreFilter === "all genres") {
       setBooks(allBooks.data.allBooks)
     }
-  }, [allBooks.data, genreFilter])
+  }, [allBooks.data, genreFilter]) // eslint-disable-line
 
   // triggers on booksByGenre data change
   useEffect(() => {
